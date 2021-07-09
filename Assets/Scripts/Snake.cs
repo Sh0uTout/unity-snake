@@ -3,34 +3,16 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-/// <summary>
-/// Handles the movement of the snake and growing in size.
-/// </summary>
-[RequireComponent(typeof(BoxCollider2D))]
 public class Snake : MonoBehaviour
 {
  
     private List<Transform> _segments = new List<Transform>();
     public int kostil;
-
-
-
-   //public Text score;
-
-
-
-    [Tooltip("The object that is cloned when creating a new segment to grow the snake.")]
     public Transform segmentPrefab;
     public GameObject Canvas;
-
-
-    [Tooltip("The number of segments the snake has initially.")]
     public static int initialSize = 4;
     public static int score = 0;
     public static int highscore = 0;
-
-
-    [HideInInspector]
     public Vector2 direction = Vector2.right;
 
     private void Start()
@@ -42,15 +24,10 @@ public class Snake : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Escape))
             Application.Quit();
-
         if (Input.GetKeyDown(KeyCode.R))
             ResetState();
         if (Input.GetKeyDown(KeyCode.Space))
             this.direction = Vector2.zero;
-
-
-
-
         if (this.direction == Vector2.zero)
         {
             if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
@@ -69,18 +46,15 @@ public class Snake : MonoBehaviour
             {
                 this.direction = Vector2.left;
             }
-
         }
          if (this.direction.x != 0.0f)
           {
-
         if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow)) {
                 this.direction = Vector2.up;
             } else if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow)) {
                 this.direction = Vector2.down;
             }
           }
-
           else if (this.direction.y != 0.0f)
           {
 
@@ -90,22 +64,6 @@ public class Snake : MonoBehaviour
                 this.direction = Vector2.left;
             }
         }
-
-        
-
-
-
-
-      //  score = (Text)gameObject.Find("Score").GetComponent(typeof(Text));
-      //  score = (Text)gameObject.GetComponent(typeof(Text));
-      //  score.text = "dfsdfsdf";
-
-
-
-
-
-
-
     }
 
     private void FixedUpdate()
@@ -130,34 +88,22 @@ public class Snake : MonoBehaviour
             
         Transform segment = Instantiate(this.segmentPrefab);
         SpriteRenderer st = (SpriteRenderer)segment.gameObject.GetComponent(typeof(SpriteRenderer));
-        
         st.color = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
-
         segment.position = _segments[_segments.Count - 1].position;
-
         score++;
         _segments.Add(segment);
     }
 
     public void ResetState()
     {
-        //this.direction = Vector2.right;
-
         this.direction = Vector2.zero;
-
         this.transform.position = Vector3.zero;
-
-        
-
-
-
             for (int i = 1; i < _segments.Count; i++) {
             Destroy(_segments[i].gameObject);
         }
 
         _segments.Clear();
         _segments.Add(this.transform);
-
         for (int i = 0; i < initialSize - 1; i++) {
 
             Grow();
@@ -165,7 +111,6 @@ public class Snake : MonoBehaviour
         kostil = 0;
         if (score - 3 > highscore) highscore = score - 3;
         score = 0;
-     
     }
 
     private void OnTriggerEnter2D(Collider2D other)
